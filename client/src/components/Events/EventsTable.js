@@ -19,34 +19,37 @@ import useStyles from "./styles";
 import UtilService from "../../utils/utils";
 
 
+
 function EventTable() {
+    const classes = useStyles();
     let today = moment(new Date()).format("YYYY-MM-DD");
     return (
         <>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} className={classes.tableContainer}>
                 <Table>
                     <TableHead>
                         <TableRow>
                             {UtilService.HEADERS.map((header) => (
-                                <TableCell>{header}</TableCell>
+                                <TableCell  className={classes.tableHeaderCell}>{header}</TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {UtilService.DUMMY_EVENTS.map((event) => (
-                            <TableRow>
-                                <TableCell>
+                            <TableRow key={event.id}>
+                                <TableCell  style={{ display: "flex", alignItems: "center" }}>
                                     <Avatar alt={event.name}
                                             src="."
+                                            className={classes.avatar}
                                     />
                                 </TableCell>
 
                                 <TableCell>
-                                    <Typography> {event.name}</Typography>
+                                    <Typography className={classes.name}> {event.name}</Typography>
                                 </TableCell>
 
                                 <TableCell>
-                                    <Typography color="primary" variant="subtitle2">{event.location}</Typography>
+                                    <Typography className={classes.name}>{event.location}</Typography>
                                 </TableCell>
 
                                 <TableCell>{event.startDate}</TableCell>
@@ -55,6 +58,7 @@ function EventTable() {
 
                                 <TableCell>
                                     <Typography
+                                        className={classes.status}
                                         style={{
                                             backgroundColor: moment(today).isAfter(
                                                 event.endDate
