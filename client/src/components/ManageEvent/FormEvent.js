@@ -2,24 +2,32 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {v4 as uuidv4} from "uuid";
 import moment from "moment";
-import LocalStorageService from "../../localStorage";
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+
 import {
     Container,
     Paper,
     TextField,
     Typography,
     Button,
-    Grid,
+    Grid, Box,
 } from "@mui/material";
 import {toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 import useStyles from "./styles";
 import DateRangePicker from "./DateRangePicker";
+import {useDispatch} from "react-redux";
+import {createEvent} from "../../actions/events";
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDateRangePicker from '@mui/lab/DesktopDateRangePicker';
+
 
 function FormEvent() {
     const classes = useStyles();
     const navigate = useNavigate();
+    const [value, setValue] = React.useState([null, null]);
     const [eventData, setEventData] = useState({
         id: uuidv4(),
         name: "",
@@ -30,7 +38,6 @@ function FormEvent() {
     })
 
     const handleDates = (range) => {
-        console.log(range)
         if (range) {
             setEventData({
                 ...eventData,
@@ -39,18 +46,7 @@ function FormEvent() {
             });
         }
     };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        let newEvent = {
-            ...eventData,
-            startDate: eventData.startDate,
-            endDate: eventData.endDate
-        };
-        LocalStorageService.addEventToLocalStorage(newEvent, showToastSuccess)
-        navigate("/");
-    }
-
+    const dispatch = useDispatch();
     const showToastSuccess = (message) => {
         toast.success(message, {
             position: "top-center",
@@ -62,6 +58,19 @@ function FormEvent() {
             progress: undefined,
         });
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        let newEvent = {
+            ...eventData,
+            startDate: eventData.startDate,
+            endDate: eventData.endDate
+        };
+        debugger
+        dispatch(createEvent({newEvent}, navigate, showToastSuccess));
+    }
+
+
     return (
         <Container>
             <Grid container justifyContent="center">
@@ -94,8 +103,30 @@ function FormEvent() {
                                 onChange={(e) =>
                                     setEventData({...eventData, location: e.target.value})}
                             />
+                            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                <DesktopDateRangePicker
+                                    startText="Desktop start"
+                                    value={value}
+                                    onChange={(newValue) => {
+                                        console.log(newValue)
 
-                            <DateRangePicker handleDates={handleDates}/>
+                                        setEventData({
+                                            ...eventData,
+                                            startDate: newValue[0] ? newValue[0].toISOString().split('T')[0] : null,
+                                            endDate: newValue[1] ? newValue[1].toISOString().split('T')[0] : null,
+
+                                        })
+                                        setValue(newValue);
+                                    }}
+                                    renderInput={(startProps, endProps) => (
+                                        <React.Fragment>
+                                            <TextField {...startProps} required/>
+                                            <Box sx={{mx: 2}}> to </Box>
+                                            <TextField {...endProps} required/>
+                                        </React.Fragment>
+                                    )}
+                                />
+                            </LocalizationProvider>
 
                             <Container className={classes.buttonContainer}>
                                 <Button

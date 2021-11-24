@@ -26,9 +26,9 @@ const DUMMY_EVENTS = [
 const sortDates = (events) => {
     events.sort((a, b) => {
         console.log(
-            new Date(b.submittedAt) - new Date(a.submittedAt)
+            new Date(b.newEvent.submittedAt) - new Date(a.newEvent.submittedAt)
         );
-        return new Date(b.submittedAt) - new Date(a.submittedAt);
+        return new Date(b.newEvent.submittedAt) - new Date(a.newEvent.submittedAt);
     });
 };
 const UtilService = {

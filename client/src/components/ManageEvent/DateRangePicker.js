@@ -10,9 +10,7 @@ function DateRangePicker(props) {
     return (
 
         <Space direction="vertical" size={12}>
-
             <RangePicker
-
                 style={{width: "500px"}}
                 format={dateFormat}
                 disabledDate={(current) => {
