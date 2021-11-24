@@ -11,6 +11,9 @@ export default makeStyles((theme) => ({
         padding: "10px 50px",
     },
     heading: {
+        "&:hover": {
+            color: "#00AA57",
+        },
         color: "rgb(17, 97, 73)",
         textDecoration: "none",
     },

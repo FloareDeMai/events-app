@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { AppBar, Typography } from "@mui/material";
 
 
@@ -12,7 +13,8 @@ function Navbar() {
            <AppBar className={classes.appBar} position="static" color="inherit">
                <div className={classes.brandContainer}>
                    <img className={classes.image} src={logo} alt="logo" height="60"/>
-                   <Typography className={classes.heading} variant="h2" align="center">
+                   <Typography className={classes.heading}
+                              component={Link} to="/" variant="h2" align="center">
                        Events
                    </Typography>
                </div>
