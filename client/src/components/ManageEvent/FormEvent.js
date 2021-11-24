@@ -14,19 +14,19 @@ import {
 } from "@mui/material";
 import {toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-
-import useStyles from "./styles";
-import DateRangePicker from "./DateRangePicker";
 import {useDispatch} from "react-redux";
-import {createEvent} from "../../actions/events";
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDateRangePicker from '@mui/lab/DesktopDateRangePicker';
+
+import {createEvent} from "../../actions/events";
+import useStyles from "./styles";
+
 
 
 function FormEvent() {
     const classes = useStyles();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [value, setValue] = React.useState([null, null]);
     const [eventData, setEventData] = useState({
         id: uuidv4(),
@@ -37,16 +37,7 @@ function FormEvent() {
         submittedAt: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
     })
 
-    const handleDates = (range) => {
-        if (range) {
-            setEventData({
-                ...eventData,
-                startDate: range[0].format("YYYY-MM-DD"),
-                endDate: range[1].format("YYYY-MM-DD")
-            });
-        }
-    };
-    const dispatch = useDispatch();
+
     const showToastSuccess = (message) => {
         toast.success(message, {
             position: "top-center",
@@ -105,16 +96,14 @@ function FormEvent() {
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DesktopDateRangePicker
-                                    startText="Desktop start"
+                                    startText="Start Date"
+                                    endText="End Date"
                                     value={value}
                                     onChange={(newValue) => {
-                                        console.log(newValue)
-
                                         setEventData({
                                             ...eventData,
                                             startDate: newValue[0] ? newValue[0].toISOString().split('T')[0] : null,
                                             endDate: newValue[1] ? newValue[1].toISOString().split('T')[0] : null,
-
                                         })
                                         setValue(newValue);
                                     }}
@@ -122,12 +111,11 @@ function FormEvent() {
                                         <React.Fragment>
                                             <TextField {...startProps} required/>
                                             <Box sx={{mx: 2}}> to </Box>
-                                            <TextField {...endProps} required/>
+                                            <TextField {...endProps} required />
                                         </React.Fragment>
                                     )}
                                 />
                             </LocalizationProvider>
-
                             <Container className={classes.buttonContainer}>
                                 <Button
                                     className={classes.buttonSubmit}
@@ -139,7 +127,6 @@ function FormEvent() {
                                     Submit
                                 </Button>
                             </Container>
-
                         </form>
                     </Paper>
                 </Grid>
