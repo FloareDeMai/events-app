@@ -48,8 +48,9 @@ function FormEvent() {
         <Container>
             <Grid container justifyContent="center">
                 <Grid item xs={12} sm={7}>
-                    <Paper>
+                    <Paper className={classes.paper}>
                         <form
+                            className={`${classes.root} ${classes.form}`}
                             autoComplete="off"
                             onSubmit={handleSubmit}>
                             <Typography variant="h6">
@@ -76,14 +77,19 @@ function FormEvent() {
                                     setEventData({...eventData, location: e.target.value})}
                             />
                             <DateRangePicker handleDates={handleDates}/>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                size="large"
-                                type="submit"
-                            >
-                                Submit
-                            </Button>
+
+                            <Container className={classes.buttonContainer}>
+                                <Button
+                                    className={classes.buttonSubmit}
+                                    variant="contained"
+                                    color="primary"
+                                    size="large"
+                                    type="submit"
+                                >
+                                    Submit
+                                </Button>
+                            </Container>
+
                         </form>
                     </Paper>
                 </Grid>

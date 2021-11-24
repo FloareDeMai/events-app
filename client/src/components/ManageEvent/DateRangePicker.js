@@ -7,16 +7,18 @@ function DateRangePicker(props) {
     const dateFormat = "DD-MM-YYYY";
     console.log(props)
     return (
+
         <Space direction="vertical" size={12}>
             <RangePicker
+                style={{width: "500px"}}
                 format={dateFormat}
-                className="rounded-full"
                 disabledDate={(current) => {
                     return moment().add(-1, "days") >= current;
                 }}
                 onChange={props.handleDates}
             />
         </Space>
+
     )
 
 }
