@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {v4 as uuidv4} from "uuid";
 import moment from "moment";
+import LocalStorageService from "../../localStorage";
 import {
     Container,
     Paper,
@@ -44,6 +45,7 @@ function FormEvent() {
             startDate: eventData.startDate,
             endDate: eventData.endDate
         };
+        LocalStorageService.addEventToLocalStorage(newEvent)
         navigate("/");
     }
     return (
@@ -78,6 +80,7 @@ function FormEvent() {
                                 onChange={(e) =>
                                     setEventData({...eventData, location: e.target.value})}
                             />
+
                             <DateRangePicker handleDates={handleDates}/>
 
                             <Container className={classes.buttonContainer}>

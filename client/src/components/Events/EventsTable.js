@@ -17,12 +17,14 @@ import moment from "moment";
 
 import useStyles from "./styles";
 import UtilService from "../../utils/utils";
+import LocalStorageService from "../../localStorage";
 
 
 
 function EventTable() {
     const classes = useStyles();
     let today = moment(new Date()).format("YYYY-MM-DD");
+    let events = LocalStorageService.getEventsFromLocalStorage();
     return (
         <>
             <TableContainer component={Paper} className={classes.tableContainer}>
@@ -35,7 +37,7 @@ function EventTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {UtilService.DUMMY_EVENTS.map((event) => (
+                        {events.map((event) => (
                             <TableRow key={event.id}>
                                 <TableCell  style={{ display: "flex", alignItems: "center" }}>
                                     <Avatar alt={event.name}

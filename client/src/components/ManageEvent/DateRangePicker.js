@@ -2,6 +2,7 @@ import React from "react";
 import { DatePicker, Space } from "antd";
 import moment from "moment";
 
+
 function DateRangePicker(props) {
     const { RangePicker } = DatePicker;
     const dateFormat = "DD-MM-YYYY";
@@ -9,7 +10,9 @@ function DateRangePicker(props) {
     return (
 
         <Space direction="vertical" size={12}>
+
             <RangePicker
+
                 style={{width: "500px"}}
                 format={dateFormat}
                 disabledDate={(current) => {
