@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {v4 as uuidv4} from "uuid";
 import moment from "moment";
 import {
@@ -15,6 +16,7 @@ import DateRangePicker from "./DateRangePicker";
 
 function FormEvent() {
     const classes = useStyles();
+    const navigate = useNavigate();
     const [eventData, setEventData] = useState({
         id: uuidv4(),
         name: "",
@@ -42,7 +44,7 @@ function FormEvent() {
             startDate: eventData.startDate,
             endDate: eventData.endDate
         };
-        console.log(newEvent)
+        navigate("/");
     }
     return (
         <Container>
