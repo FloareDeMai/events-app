@@ -29,7 +29,7 @@ function TBody (props) {
                     <TableCell>{event.newEvent.endDate}</TableCell>
                     <TableCell>{event.newEvent.submittedAt}</TableCell>
                     <TableCell>
-                        {/*todo implement cron jobs on backend*/}
+                        {/*// todo read based on the flag from the event in the db*/}
                         <Typography
                             className={props.classes.status}
                             style={{

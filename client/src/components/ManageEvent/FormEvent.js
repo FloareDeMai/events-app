@@ -2,8 +2,6 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {v4 as uuidv4} from "uuid";
 import moment from "moment";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-
 import {
     Container,
     Paper,
@@ -15,6 +13,7 @@ import {
 import {toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {useDispatch} from "react-redux";
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDateRangePicker from '@mui/lab/DesktopDateRangePicker';
 
@@ -27,7 +26,7 @@ function FormEvent() {
     const classes = useStyles();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [value, setValue] = React.useState([null, null]);
+    const [eventTimeFrame, setEventTimeFrame] = useState([null, null]);
     const [eventData, setEventData] = useState({
         id: uuidv4(),
         name: "",
@@ -36,7 +35,6 @@ function FormEvent() {
         endDate: null,
         submittedAt: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
     })
-
 
     const showToastSuccess = (message) => {
         toast.success(message, {
@@ -98,14 +96,14 @@ function FormEvent() {
                                 <DesktopDateRangePicker
                                     startText="Start Date"
                                     endText="End Date"
-                                    value={value}
+                                    value={eventTimeFrame}
                                     onChange={(newValue) => {
                                         setEventData({
                                             ...eventData,
                                             startDate: newValue[0] ? newValue[0].toISOString().split('T')[0] : null,
                                             endDate: newValue[1] ? newValue[1].toISOString().split('T')[0] : null,
                                         })
-                                        setValue(newValue);
+                                        setEventTimeFrame(newValue);
                                     }}
                                     renderInput={(startProps, endProps) => (
                                         <React.Fragment>

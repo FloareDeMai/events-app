@@ -3,9 +3,7 @@ import EventsTable from "../Events/EventsTable";
 
 function Home() {
     return (
-        <div>
-            <EventsTable/>
-        </div>
+        <EventsTable/>
     )
 }
 

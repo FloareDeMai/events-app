@@ -1,12 +1,10 @@
 const addEventToLocalStorage = (event, showToastSuccess) => {
-    console.log("=====================")
-    console.log(showToastSuccess)
     let existingEvents = JSON.parse(localStorage.getItem("data"));
     if (existingEvents === null) existingEvents = [];
     localStorage.setItem("event", JSON.stringify(event))
     existingEvents.push(event)
     localStorage.setItem("data", JSON.stringify(existingEvents));
-    showToastSuccess("Event added successfuly!")
+    showToastSuccess("Event added successfully!")
 }
 
 const getEventsFromLocalStorage = () => {
