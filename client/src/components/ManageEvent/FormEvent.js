@@ -1,10 +1,95 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
+import {v4 as uuidv4} from "uuid";
+import moment from "moment";
+import {
+    Container,
+    Paper,
+    TextField,
+    Typography,
+    Button,
+    Grid,
+} from "@mui/material";
+
+import useStyles from "./styles";
+import DateRangePicker from "./DateRangePicker";
 
 function FormEvent() {
+    const classes = useStyles();
+    const [eventData, setEventData] = useState({
+        id: uuidv4(),
+        name: "",
+        location: "",
+        startDate: null,
+        endDate: null,
+        submittedAt: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
+    })
+
+    const handleDates = (range) => {
+        console.log(range)
+        if (range) {
+            setEventData({
+                ...eventData,
+                startDate: range[0].format("YYYY-MM-DD"),
+                endDate: range[1].format("YYYY-MM-DD")
+            });
+        }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        let newEvent = {
+            ...eventData,
+            startDate: eventData.startDate,
+            endDate: eventData.endDate
+        };
+        console.log(newEvent)
+    }
     return (
-        <>
-            Here will be the adding event form
-        </>
+        <Container>
+            <Grid container justifyContent="center">
+                <Grid item xs={12} sm={7}>
+                    <Paper>
+                        <form
+                            autoComplete="off"
+                            onSubmit={handleSubmit}>
+                            <Typography variant="h6">
+                                Creating an Event
+                            </Typography>
+                            <TextField
+                                name="name"
+                                variant="outlined"
+                                label="Event Title"
+                                fullWidth
+                                required
+                                value={eventData.name}
+                                onChange={(e) =>
+                                    setEventData({...eventData, name: e.target.value})}
+                            />
+                            <TextField
+                                name="location"
+                                variant="outlined"
+                                label="Location"
+                                fullWidth
+                                required
+                                value={eventData.location}
+                                onChange={(e) =>
+                                    setEventData({...eventData, location: e.target.value})}
+                            />
+                            <DateRangePicker handleDates={handleDates}/>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                size="large"
+                                type="submit"
+                            >
+                                Submit
+                            </Button>
+                        </form>
+                    </Paper>
+                </Grid>
+
+            </Grid>
+        </Container>
     )
 }
 

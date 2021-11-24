@@ -4,6 +4,7 @@ import { AppBar, Typography } from "@mui/material";
 
 
 import logo from "../../images/logo.png"
+import addIcon from "../../images/add.png"
 import useStyles from "./styles";
 
 function Navbar() {
@@ -18,6 +19,17 @@ function Navbar() {
                        Events
                    </Typography>
                </div>
+
+               <Link to="/manage-event">
+                   <div>
+                       <img
+                           src={addIcon}
+                           alt="icon"
+                           height="60"
+                           className={classes.image}
+                       />
+                   </div>
+               </Link>
            </AppBar>
         </>
     )
