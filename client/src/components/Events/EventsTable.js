@@ -20,26 +20,26 @@ import UtilService from "../../utils/utils";
 import LocalStorageService from "../../localStorage";
 
 
-
 function EventTable() {
     const classes = useStyles();
     let today = moment(new Date()).format("YYYY-MM-DD");
     let events = LocalStorageService.getEventsFromLocalStorage();
+    UtilService.sortDates(events);
     return (
         <>
-            <TableContainer component={Paper} className={classes.tableContainer}>
+            {events.length ? <TableContainer component={Paper} className={classes.tableContainer}>
                 <Table>
                     <TableHead>
                         <TableRow>
                             {UtilService.HEADERS.map((header) => (
-                                <TableCell  className={classes.tableHeaderCell}>{header}</TableCell>
+                                <TableCell className={classes.tableHeaderCell}>{header}</TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {events.map((event) => (
                             <TableRow key={event.id}>
-                                <TableCell  style={{ display: "flex", alignItems: "center" }}>
+                                <TableCell style={{display: "flex", alignItems: "center"}}>
                                     <Avatar alt={event.name}
                                             src="."
                                             className={classes.avatar}
@@ -78,8 +78,18 @@ function EventTable() {
                         ))}
                     </TableBody>
                 </Table>
+            </TableContainer> : <Container>
+                <Grid container justifyContent="center">
+                    <Grid item xs={12} sm={7}>
+                        <Paper className={classes.paper}>
+                            <Typography variant="h6" align="center">
+                                No events yet...
+                            </Typography>
+                        </Paper>
+                    </Grid>
+                </Grid>
+            </Container>}
 
-            </TableContainer>
         </>
     )
 }

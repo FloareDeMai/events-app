@@ -1,4 +1,3 @@
-
 const HEADERS = [" ", "Name", "Location", "Start Date", "End Date", "Submitted at", "Status"];
 const DUMMY_EVENTS = [
     {
@@ -23,9 +22,19 @@ const DUMMY_EVENTS = [
         submittedAt: "2021-11-21 21:25:56"
     }
 ]
+
+const sortDates = (events) => {
+    events.sort((a, b) => {
+        console.log(
+            new Date(b.submittedAt) - new Date(a.submittedAt)
+        );
+        return new Date(b.submittedAt) - new Date(a.submittedAt);
+    });
+};
 const UtilService = {
     HEADERS,
-    DUMMY_EVENTS
+    DUMMY_EVENTS,
+    sortDates
 }
 
 export default UtilService;

@@ -11,6 +11,8 @@ import {
     Button,
     Grid,
 } from "@mui/material";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import useStyles from "./styles";
 import DateRangePicker from "./DateRangePicker";
@@ -45,9 +47,21 @@ function FormEvent() {
             startDate: eventData.startDate,
             endDate: eventData.endDate
         };
-        LocalStorageService.addEventToLocalStorage(newEvent)
+        LocalStorageService.addEventToLocalStorage(newEvent, showToastSuccess)
         navigate("/");
     }
+
+    const showToastSuccess = (message) => {
+        toast.success(message, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
     return (
         <Container>
             <Grid container justifyContent="center">
