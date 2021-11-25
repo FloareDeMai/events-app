@@ -3,10 +3,28 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 dotenv.config()
 
+import usersRoutes from './routes/users-routes.js'
+
 
 const app = express();
 
 app.use(express.json());
+
+app.use("/api/users", usersRoutes)
+
+//error handling for unsupported routes
+app.use((req, res, next) => {
+    throw new HttpError('Could not find this route.', 404);
+});
+
+//error handling middleware function
+app.use((error, req, res, next) => {
+    if (res.headerSent) {
+        return next(error);
+    }
+    res.status(error.code || 500);
+    res.json({message: error.message || 'An unknown error occurred!'});
+})
 
 
 const CONNECTION_URL = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.du2zr.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
