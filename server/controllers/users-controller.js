@@ -1,6 +1,7 @@
 import {validationResult} from "express-validator";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import moment from "moment";
 
 import HttpError from "../models/http-error.js";
 import User from "../models/user.js"
@@ -8,7 +9,7 @@ import User from "../models/user.js"
 
 export const signup = async (req, res, next) => {
     const errors = validationResult(req);
-
+    console.log(errors)
     if (!errors.isEmpty()) {
         return next(new HttpError(
             "Invalid inputs passed, please check your data.",
@@ -68,8 +69,8 @@ export const signup = async (req, res, next) => {
     try {
         token = jwt.sign(
             { userId: createdUser.id, email: createdUser.email },
-            'supersecret_dont_share',
-            { expiresIn: '1h' }
+            process.env.SECRET_KEY,
+            { expiresIn: '100h' }
         );
     } catch (err) {
         const error = new HttpError(
@@ -116,12 +117,11 @@ export  const login = async (req, res, next) => {
 
     let token;
     try {
-        token = jwt.sign({userId: existingUser.id, email: existingUser.email}, 'supersecret_dont_share', {expiresIn: '10h'})
+        token = jwt.sign({userId: existingUser.id, email: existingUser.email},  process.env.SECRET_KEY, {expiresIn: '200h'})
     } catch (err) {
         const error = new HttpError('Logging in user failed, please try again.', 500);
         return next(error);
     }
 
-
-    res.json({userId: existingUser.id, email: email, token: token});
+    res.json({userId: existingUser.id, email: existingUser.email, token: token});
 }

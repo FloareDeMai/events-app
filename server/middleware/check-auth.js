@@ -8,6 +8,7 @@ export const checkAuth = (req, res, next) => {
             throw new Error('Authentication failed!')
         }
         const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+
         req.userData = {userId: decodedToken.userId};
         next();
     } catch (err) {

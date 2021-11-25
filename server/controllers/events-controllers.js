@@ -26,7 +26,7 @@ export const createEvent = async (req, res, next) => {
             new HttpError('Invalid inputs passed, please check your data.', 422)
         );
     }
-    const {name, location, startDate, endDate, creator} = req.body;
+    const {name, location, startDate, endDate} = req.body;
 
     const createdEvent = new Event({
         name,
@@ -34,12 +34,13 @@ export const createEvent = async (req, res, next) => {
         startDate,
         endDate,
         submittedAt: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
-        creator
+        creator: req.userData.userId
     })
+
 
     let user;
     try {
-        user = await User.findById(creator);
+        user = await User.findById(req.userData.userId);
     } catch (err) {
         const error = new HttpError('Creating event failed, please try again later!', 500);
         return next(error);
@@ -53,18 +54,17 @@ export const createEvent = async (req, res, next) => {
     try {
         const sess = await mongoose.startSession();
         sess.startTransaction();
-        await createdEvent.save({session: sess});
+        await createdEvent.save({ session: sess });
         user.events.push(createdEvent);
         await user.save({session: sess});
         await sess.commitTransaction();
     } catch (err) {
         const error = new HttpError(
-            'Creating event failed, please try again.',
+            'Creating event failed, please try again...',
             500
         );
         return next(error);
     }
-
     res.status(201).json({event: createdEvent});
 
 }
@@ -84,6 +84,10 @@ export const deleteEvent = async (req, res, next) => {
         return next(error);
     }
 
+    if (event.creator.id !== req.userData.userId) {
+        const error = new HttpError('You are not allowed to delete this event', 401)
+        return next(error);
+    }
 
     try {
         const sess = await mongoose.startSession();

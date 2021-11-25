@@ -4,6 +4,8 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import usersRoutes from './routes/users-routes.js'
+import eventsRoutes from './routes/events-routes.js'
+import HttpError from "./models/http-error.js";
 
 
 const app = express();
@@ -11,6 +13,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/users", usersRoutes)
+app.use("/api/events", eventsRoutes)
 
 //error handling for unsupported routes
 app.use((req, res, next) => {
@@ -39,4 +42,6 @@ mongoose
     .catch(error => {
         console.log(error)
     })
+
+
 
