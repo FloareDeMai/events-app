@@ -25,12 +25,10 @@ const DUMMY_EVENTS = [
 
 const sortDates = (events) => {
     events.sort((a, b) => {
-        console.log(
-            new Date(b.newEvent.submittedAt) - new Date(a.newEvent.submittedAt)
-        );
         return new Date(b.newEvent.submittedAt) - new Date(a.newEvent.submittedAt);
     });
 };
+
 const UtilService = {
     HEADERS,
     DUMMY_EVENTS,

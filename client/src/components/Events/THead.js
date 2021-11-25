@@ -1,12 +1,15 @@
 import {TableCell, TableHead, TableRow} from "@mui/material";
-import UtilService from "../../utils/utils";
 
-function THead(props){
+import UtilService from "../../utils/utils";
+import useStyles from "./styles";
+
+function THead(){
+    const classes = useStyles();
     return(
         <TableHead>
-            <TableRow>
+            <TableRow >
                 {UtilService.HEADERS.map((header) => (
-                    <TableCell key={header} className={props.classes.tableHeaderCell}>{header}</TableCell>
+                    <TableCell key={header} className={classes.tableHeaderCell}>{header}</TableCell>
                 ))}
             </TableRow>
         </TableHead>

@@ -55,10 +55,9 @@ function FormEvent() {
             startDate: eventData.startDate,
             endDate: eventData.endDate
         };
-        debugger
         dispatch(createEvent({newEvent}, navigate, showToastSuccess));
-    }
 
+    }
 
     return (
         <Container>
@@ -94,6 +93,7 @@ function FormEvent() {
                             />
                             <LocalizationProvider dateAdapter={AdapterDateFns}>
                                 <DesktopDateRangePicker
+                                    disablePast
                                     startText="Start Date"
                                     endText="End Date"
                                     value={eventTimeFrame}

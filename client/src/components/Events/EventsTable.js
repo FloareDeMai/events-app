@@ -47,8 +47,8 @@ function EventTable() {
                     />
                     <TableContainer component={Paper} className={classes.tableContainer}>
                         <Table>
-                            <THead classes={classes}/>
-                            <TBody classes={classes}/>
+                            <THead />
+                            <TBody/>
                             {events.length  ? (
                                 <TableFooter>
                                     <TableRow>
