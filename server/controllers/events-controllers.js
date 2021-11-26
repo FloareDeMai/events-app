@@ -16,11 +16,13 @@ export const getAllEvents = async (req, res, next) => {
         return next(error);
     }
 
-    res.status(200).json({events: events.map(event => event.toObject({getters: true})), success: true})
+    res.status(200).json(events)
 }
 
 export const createEvent = async (req, res, next) => {
     const errors = validationResult(req);
+    console.log(errors)
+    console.log(req.body.startDate)
     if (!errors.isEmpty()) {
         return next(
             new HttpError('Invalid inputs passed, please check your data.', 422)
