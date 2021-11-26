@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -11,6 +12,7 @@ import HttpError from "./models/http-error.js";
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.use("/api/users", usersRoutes)
 app.use("/api/events", eventsRoutes)
