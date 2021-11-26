@@ -14,7 +14,6 @@ import Register from "./components/Auth/Register";
 export const userAtom = atom(LocalStorageService.getCurrentUserFromLocalStorage());
 
 function App() {
-
     return (
         <BrowserRouter>
         <Container maxWidth="lg">

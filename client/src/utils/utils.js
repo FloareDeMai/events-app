@@ -1,4 +1,4 @@
-const HEADERS = [" ", "Name", "Location", "Start Date", "End Date", "Submitted at", "Status"];
+const HEADERS = ["Creator", "Name", "Location", "Start Date", "End Date", "Submitted at", "Status", " "];
 const DUMMY_EVENTS = [
     {
         name: "First Event",

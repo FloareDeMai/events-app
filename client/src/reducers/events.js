@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, DELETE } from "../constants/actionTypes";
+import {FETCH_ALL, CREATE, DELETE} from "../constants/actionTypes";
 
 const events = (events = [], action) => {
     switch (action.type) {
@@ -7,7 +7,7 @@ const events = (events = [], action) => {
         case CREATE:
             return [...events, action.payload];
         case DELETE:
-            return []
+            return events.filter((event) => event._id !== action.payload)
         default:
             return events;
     }

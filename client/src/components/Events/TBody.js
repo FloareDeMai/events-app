@@ -1,19 +1,46 @@
-import {Avatar, TableBody, TableCell, TableRow, Typography} from "@mui/material";
+import {Avatar, TableBody, TableCell, TableRow, Typography, Button} from "@mui/material";
 import moment from "moment";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 import useStyles from "./styles";
 import UtilService from "../../utils/utils";
+import {deleteEvent} from "../../actions/events";
+import {useAtom} from "jotai";
+import {userAtom} from "../../App";
+import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
+import {useState} from "react";
 
 
-
-function TBody () {
+function TBody() {
     const classes = useStyles();
-    let today = moment(new Date()).format("YYYY-MM-DD");
+    const dispatch = useDispatch();
+    const [userLogged] = useAtom(userAtom);
+    const [selectedEvent, setSelectedEvent] = useState({});
+    const [isOpen, setIsOpen] = useState(false);
     const events = useSelector((state) => state.events);
+    let today = moment(new Date()).format("YYYY-MM-DD");
     UtilService.sortDates(events);
+
+    const handleClickDelete = (event) => {
+        setSelectedEvent(event);
+        setIsOpen(true);
+    };
+
+    const cancel = () => {
+        setIsOpen(false);
+    };
+
+    const confirmDelete = () => {
+        dispatch(deleteEvent(selectedEvent._id))
+        setIsOpen(false);
+    };
     return (
         <TableBody>
+            <ConfirmDialog
+                isOpen={isOpen}
+                cancel={cancel}
+                confirmDelete={confirmDelete}
+            />
             {events.map((event) => (
                 <TableRow key={event._id}>
                     <TableCell style={{display: "flex", alignItems: "center"}}>
@@ -48,10 +75,15 @@ function TBody () {
                                 : "Active"}
                         </Typography>
                     </TableCell>
+                    <TableCell>
+                        {console.log(event._id)}
+                        {(userLogged?.userId === event?.creator) &&
+                        (<Button style={{color: "red"}} onClick={() => handleClickDelete(event)}>Delete</Button>)}
+                    </TableCell>
                 </TableRow>
             ))}
         </TableBody>
     )
 }
-
 export default TBody;
+

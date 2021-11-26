@@ -3,7 +3,7 @@ import {
     DELETE, FETCH_ALL,
 } from "../constants/actionTypes";
 import * as api from '../api/index.js';
-import LocalStorageService from "../localStorage";
+
 
 export const getAllEvents = () => async (dispatch) => {
     try{
@@ -17,17 +17,19 @@ export const getAllEvents = () => async (dispatch) => {
 export const createEvent = (event, navigate, showSuccess) => async (dispatch) => {
     try{
         const {data} = await api.createEvent(event);
-        console.log(data)
         dispatch({type: CREATE, payload: data})
         showSuccess("Event created successfully!")
         navigate("/")
-    }catch (error){
-        console.log(error)
+    }catch (err){
+        console.log(err)
     }
 }
 
-export const deleteAllEvents = () => async (dispatch) => {
-    LocalStorageService.removeAllEventsFromLocalStorage();
-    dispatch({ type: DELETE, payload:[]});
-
+export const deleteEvent = (id) => async (dispatch) => {
+   try{
+       await api.deleteEvent(id);
+       dispatch({type: DELETE, payload: id})
+   }catch (err) {
+       console.log(err)
+   }
 }

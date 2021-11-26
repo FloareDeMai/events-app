@@ -4,9 +4,8 @@ import {
     TableContainer,
     Table,
     Typography,
-    Button,
     Container,
-    Grid, TableRow, TableFooter, TableCell,
+    Grid,
 } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -14,62 +13,28 @@ import useStyles from "./styles";
 import THead from "./THead";
 import TBody from "./TBody";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
-import {deleteAllEvents, getAllEvents} from "../../actions/events";
+import {getAllEvents, getSelectedEvent} from "../../actions/events";
 
 
 function EventTable() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const events = useSelector((state) => state.events);
-    const [isOpen, setIsOpen] = useState(false);
+
 
     useEffect(() => {
         dispatch(getAllEvents());
-    },[dispatch])
+    }, [dispatch])
 
-    const handleClickDeleteAll = () => {
-        setIsOpen(true);
-    };
-
-    const cancel = () => {
-        setIsOpen(false);
-    };
-
-    const confirmDeleteAll = () => {
-        dispatch(deleteAllEvents());
-        setIsOpen(false);
-    };
 
     return (
         <>
             {events?.length ?
                 <>
-                    <ConfirmDialog
-                        isOpen={isOpen}
-                        cancel={cancel}
-                        confirmDeleteAll={confirmDeleteAll}
-                    />
                     <TableContainer component={Paper} className={classes.tableContainer}>
                         <Table>
-                            <THead />
+                            <THead/>
                             <TBody/>
-                            {events?.length  ? (
-                                <TableFooter>
-                                    <TableRow>
-                                        <TableCell colSpan={7} align="center">
-                                            <Button
-                                                onClick={handleClickDeleteAll}
-                                                variant="contained"
-                                                className={classes.deleteButton}
-                                                size="small"
-                                                type="submit"
-                                            >
-                                                Delete All
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
-                                </TableFooter>
-                            ) : null}
                         </Table>
                     </TableContainer>
                 </> :

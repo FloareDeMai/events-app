@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 
-const ConfirmDialog = ({ isOpen, cancel, confirmDeleteAll }) => {
+const ConfirmDialog = ({ isOpen, cancel, confirmDelete }) => {
     return (
         <Dialog open={isOpen} maxWidth="sm" fullWidth>
             <DialogTitle>Confirm the action</DialogTitle>
@@ -20,13 +20,13 @@ const ConfirmDialog = ({ isOpen, cancel, confirmDeleteAll }) => {
                 </IconButton>
             </Box>
             <DialogContent>
-                <Typography>Do you really want to delete all the data?</Typography>
+                <Typography>Do you really want to delete this event?</Typography>
             </DialogContent>
             <DialogActions>
                 <Button color="primary" variant="contained" onClick={cancel}>
                     Cancel
                 </Button>
-                <Button color="secondary" variant="contained" onClick={confirmDeleteAll}>
+                <Button color="secondary" variant="contained" onClick={confirmDelete}>
                     Confirm
                 </Button>
             </DialogActions>

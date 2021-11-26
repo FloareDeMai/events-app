@@ -19,8 +19,6 @@ import DesktopDateRangePicker from '@mui/lab/DesktopDateRangePicker';
 
 import {createEvent} from "../../actions/events";
 import useStyles from "./styles";
-import LocalStorageService from "../../localStorage";
-
 
 function FormEvent() {
     const classes = useStyles();
@@ -28,12 +26,10 @@ function FormEvent() {
     const dispatch = useDispatch();
     const [eventTimeFrame, setEventTimeFrame] = useState([null, null]);
     const [eventData, setEventData] = useState({
-        id: uuidv4(),
         name: "",
         location: "",
         startDate: null,
         endDate: null,
-        submittedAt: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
     })
 
     const showToastSuccess = (message) => {
@@ -56,7 +52,6 @@ function FormEvent() {
             endDate: eventData.endDate
         }, navigate, showToastSuccess));
     }
-
     return (
         <Container>
             <Grid container justifyContent="center">
@@ -96,7 +91,6 @@ function FormEvent() {
                                     endText="End Date"
                                     value={eventTimeFrame}
                                     onChange={(newValue) => {
-                                        console.log(moment(newValue[0].toLocaleDateString()).format("YYYY-MM-DD")+  " data")
                                         setEventData({
                                             ...eventData,
                                             startDate: newValue[0] ? moment(newValue[0].toLocaleDateString()).format("YYYY-MM-DD") : null,
