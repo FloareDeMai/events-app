@@ -19,6 +19,8 @@ import {Visibility, VisibilityOff} from "@mui/icons-material";
 import Avatar from '@mui/material/Avatar';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {login} from "../../actions/auth";
+import {useAtom} from "jotai";
+import {userAtom} from "../../App";
 
 const initialState = {firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
 
@@ -31,10 +33,11 @@ function Login() {
     const navigate = useNavigate();
     const [form, setForm] = useState(initialState);
     const [showPassword, setShowPassword] = useState(false);
+    const [userLogged, setUserLogged] = useAtom(userAtom);
     const handleShowPassword = () => setShowPassword(!showPassword);
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(login(form, navigate))
+        dispatch(login(form, setUserLogged, navigate))
     }
     const handleChange = (e) => setForm({...form, [e.target.name]: e.target.value});
     return (

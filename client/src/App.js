@@ -1,4 +1,4 @@
-import {BrowserRouter, Route, Routes, Navigate} from "react-router-dom"
+import {BrowserRouter, Route, Routes} from "react-router-dom"
 import {Container} from "@mui/material";
 import { atom } from "jotai";
 
@@ -6,17 +6,17 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import FormEvent from "./components/ManageEvent/FormEvent";
 import Login from "./components/Auth/Login";
-import LocalStorageService from "./localStorage";
 import RequireAuth from "./components/Auth/RequireAuth";
+import LogOut from "./components/LogOut/LogOut";
+import LocalStorageService from "./localStorage";
 
 
-export const userAtom = atom(true);
+
+export const userAtom = atom(LocalStorageService.getCurrentUserFromLocalStorage());
 
 
 function App() {
 
-    const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user)
     return (
         <BrowserRouter>
         <Container maxWidth="lg">
@@ -24,6 +24,7 @@ function App() {
             <Routes>
                 <Route path="/" exact element={<Home/>}/>
                 <Route path="/login" exact element={<Login/>}/>
+                <Route path="/logout" exact element={<RequireAuth><LogOut/></RequireAuth>}/>
                 <Route path="/manage-event" exact element={<RequireAuth><FormEvent/></RequireAuth>} />
             </Routes>
         </Container>
