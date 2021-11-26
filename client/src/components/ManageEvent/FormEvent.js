@@ -19,7 +19,7 @@ import DesktopDateRangePicker from '@mui/lab/DesktopDateRangePicker';
 
 import {createEvent} from "../../actions/events";
 import useStyles from "./styles";
-
+import LocalStorageService from "../../localStorage";
 
 
 function FormEvent() {
@@ -35,7 +35,7 @@ function FormEvent() {
         endDate: null,
         submittedAt: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
     })
-
+    const user = LocalStorageService.getCurrentUserFromLocalStorage();
     const showToastSuccess = (message) => {
         toast.success(message, {
             position: "top-center",
@@ -56,7 +56,16 @@ function FormEvent() {
             endDate: eventData.endDate
         };
         dispatch(createEvent({newEvent}, navigate, showToastSuccess));
+    }
 
+    if (!user?.email) {
+        return (
+            <Paper className={classes.paper} elevation={6}>
+                <Typography variant="h6" align="center">
+                    Please Sign In to create an event.
+                </Typography>
+            </Paper>
+        );
     }
 
     return (
@@ -109,7 +118,7 @@ function FormEvent() {
                                         <React.Fragment>
                                             <TextField {...startProps} required/>
                                             <Box sx={{mx: 2}}> to </Box>
-                                            <TextField {...endProps} required />
+                                            <TextField {...endProps} required/>
                                         </React.Fragment>
                                     )}
                                 />

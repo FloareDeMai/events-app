@@ -17,10 +17,16 @@ const removeAllEventsFromLocalStorage = () => {
     return localStorage.removeItem("data");
 }
 
+
+const getCurrentUserFromLocalStorage = () => {
+    return JSON.parse(localStorage.getItem("user"));
+}
+
 const LocalStorageService = {
     addEventToLocalStorage,
     getEventsFromLocalStorage,
-    removeAllEventsFromLocalStorage
+    removeAllEventsFromLocalStorage,
+    getCurrentUserFromLocalStorage
 }
 
 export default LocalStorageService;

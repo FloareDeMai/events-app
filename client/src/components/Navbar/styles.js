@@ -1,4 +1,4 @@
-import { makeStyles } from "@mui/styles";
+import {makeStyles} from "@mui/styles";
 
 
 export default makeStyles((theme) => ({
@@ -39,5 +39,16 @@ export default makeStyles((theme) => ({
         display: "flex",
         alignItems: "center",
     },
+    navbarLinks: {
+        display: "flex",
+        padding: "10px"
+    },
+    links: {
+        "&:hover": {
+            color: "#00AA57",
+        },
+        padding: "10px",
+        color: "rgb(17, 97, 73)"
+    }
 
 }));
