@@ -29,10 +29,28 @@ const sortDates = (events) => {
     });
 };
 
+const validateFields = (data, setErrors) => {
+    let error = false
+    if (data.password && data.password.length < 6) {
+        error = true
+        console.log('Password must have a minimum length of 6 characters.')
+
+        setErrors(state => ({...state, short: 'Password must contain at least 6 characters'}))
+        console.log('short set')
+    }
+
+    if (data.confirmPassword && data.confirmPassword !== data.password) {
+        error = true
+        setErrors(state => ({...state, mismatch: "Passwords don't match"}))
+    }
+    return error
+}
+
 const UtilService = {
     HEADERS,
     DUMMY_EVENTS,
-    sortDates
+    sortDates,
+    validateFields
 }
 
 export default UtilService;

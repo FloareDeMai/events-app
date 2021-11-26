@@ -9,11 +9,9 @@ import Login from "./components/Auth/Login";
 import RequireAuth from "./components/Auth/RequireAuth";
 import LogOut from "./components/LogOut/LogOut";
 import LocalStorageService from "./localStorage";
-
-
+import Register from "./components/Auth/Register";
 
 export const userAtom = atom(LocalStorageService.getCurrentUserFromLocalStorage());
-
 
 function App() {
 
@@ -23,6 +21,7 @@ function App() {
            <Navbar/>
             <Routes>
                 <Route path="/" exact element={<Home/>}/>
+                <Route path="/register" exact element={<Register/>}/>
                 <Route path="/login" exact element={<Login/>}/>
                 <Route path="/logout" exact element={<RequireAuth><LogOut/></RequireAuth>}/>
                 <Route path="/manage-event" exact element={<RequireAuth><FormEvent/></RequireAuth>} />

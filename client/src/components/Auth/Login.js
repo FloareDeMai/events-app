@@ -1,34 +1,31 @@
 import React, {useState} from 'react';
 import {
-    AppBar,
     Box,
     Button,
     Container,
     CssBaseline,
-    Paper,
     Grid,
     TextField,
-    Toolbar,
     Typography, InputAdornment, IconButton
 } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {Link, useNavigate} from "react-router-dom";
-import useStyles from './styles';
 import {useDispatch} from "react-redux";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import Avatar from '@mui/material/Avatar';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import {login} from "../../actions/auth";
 import {useAtom} from "jotai";
 import {userAtom} from "../../App";
 
-const initialState = {firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
 
-
+const initialState = { email: '', password: ''};
 const theme = createTheme();
 
 function Login() {
-    const classes = useStyles();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [form, setForm] = useState(initialState);
@@ -37,9 +34,21 @@ function Login() {
     const handleShowPassword = () => setShowPassword(!showPassword);
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(login(form, setUserLogged, navigate))
+        dispatch(login(form, setUserLogged, navigate, showToastError))
     }
     const handleChange = (e) => setForm({...form, [e.target.name]: e.target.value});
+
+    const showToastError = (message) => {
+        toast.error(message, {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    };
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
