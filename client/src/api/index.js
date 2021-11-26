@@ -10,9 +10,9 @@ API.interceptors.request.use((req) => {
     return req;
 });
 
-export const fetchEvents = () => axios.get("/events");
-export const createEvent = (newPost) => axios.post("/events", newPost);
-export const deleteEvent = (eventId) => axios.delete(`/events/${eventId}`)
+export const fetchEvents = () => API.get("/events");
+export const createEvent = (newPost) => API.post("/events", newPost);
+export const deleteEvent = (eventId) => API.delete(`/events/${eventId}`)
 
 export const login = (formData) => API.post('/users/login', formData);
 export const register = (formData) => API.post('/users/signup', formData);

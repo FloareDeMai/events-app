@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useEffect, useState} from "react"
 import {
     Paper,
     TableContainer,
@@ -14,7 +14,7 @@ import useStyles from "./styles";
 import THead from "./THead";
 import TBody from "./TBody";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
-import {deleteAllEvents} from "../../actions/events";
+import {deleteAllEvents, getAllEvents} from "../../actions/events";
 
 
 function EventTable() {
@@ -22,6 +22,10 @@ function EventTable() {
     const dispatch = useDispatch();
     const events = useSelector((state) => state.events);
     const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        dispatch(getAllEvents());
+    },[dispatch])
 
     const handleClickDeleteAll = () => {
         setIsOpen(true);
@@ -38,7 +42,7 @@ function EventTable() {
 
     return (
         <>
-            {events.length ?
+            {events?.length ?
                 <>
                     <ConfirmDialog
                         isOpen={isOpen}
@@ -49,7 +53,7 @@ function EventTable() {
                         <Table>
                             <THead />
                             <TBody/>
-                            {events.length  ? (
+                            {events?.length  ? (
                                 <TableFooter>
                                     <TableRow>
                                         <TableCell colSpan={7} align="center">

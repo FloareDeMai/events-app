@@ -15,35 +15,35 @@ function TBody () {
     return (
         <TableBody>
             {events.map((event) => (
-                <TableRow key={event.newEvent.id}>
+                <TableRow key={event._id}>
                     <TableCell style={{display: "flex", alignItems: "center"}}>
-                        <Avatar alt={event.newEvent.name}
+                        <Avatar alt={event.name}
                                 src="."
                                 className={classes.avatar}
                         />
                     </TableCell>
                     <TableCell>
-                        <Typography className={classes.name}> {event.newEvent.name}</Typography>
+                        <Typography className={classes.name}> {event.name}</Typography>
                     </TableCell>
                     <TableCell>
-                        <Typography className={classes.name}>{event.newEvent.location}</Typography>
+                        <Typography className={classes.name}>{event.location}</Typography>
                     </TableCell>
-                    <TableCell>{event.newEvent.startDate}</TableCell>
-                    <TableCell>{event.newEvent.endDate}</TableCell>
-                    <TableCell>{event.newEvent.submittedAt}</TableCell>
+                    <TableCell>{event.startDate}</TableCell>
+                    <TableCell>{event.endDate}</TableCell>
+                    <TableCell>{event.submittedAt}</TableCell>
                     <TableCell>
                         {/*// todo read based on the flag from the event in the db*/}
                         <Typography
                             className={classes.status}
                             style={{
                                 backgroundColor: moment(today).isAfter(
-                                    event.newEvent.endDate
+                                    event.endDate
                                 )
                                     ? "red"
                                     : "green",
                             }}
                         >
-                            {moment(today).isAfter(event.newEvent.endDate)
+                            {moment(today).isAfter(event.endDate)
                                 ? "Closed"
                                 : "Active"}
                         </Typography>

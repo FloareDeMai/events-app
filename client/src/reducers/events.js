@@ -1,9 +1,6 @@
 import { FETCH_ALL, CREATE, DELETE } from "../constants/actionTypes";
-import LocalStorageService from "../localStorage/index"
 
-let initialState = LocalStorageService.getEventsFromLocalStorage();
-
-const events = (events = initialState, action) => {
+const events = (events = [], action) => {
     switch (action.type) {
         case FETCH_ALL:
             return action.payload;

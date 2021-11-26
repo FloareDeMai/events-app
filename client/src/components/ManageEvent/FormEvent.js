@@ -35,7 +35,7 @@ function FormEvent() {
         endDate: null,
         submittedAt: moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
     })
-    const user = LocalStorageService.getCurrentUserFromLocalStorage();
+
     const showToastSuccess = (message) => {
         toast.success(message, {
             position: "top-center",
@@ -50,22 +50,11 @@ function FormEvent() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let newEvent = {
+        dispatch(createEvent({
             ...eventData,
             startDate: eventData.startDate,
             endDate: eventData.endDate
-        };
-        dispatch(createEvent({newEvent}, navigate, showToastSuccess));
-    }
-
-    if (!user?.email) {
-        return (
-            <Paper className={classes.paper} elevation={6}>
-                <Typography variant="h6" align="center">
-                    Please Sign In to create an event.
-                </Typography>
-            </Paper>
-        );
+        }, navigate, showToastSuccess));
     }
 
     return (
@@ -107,10 +96,11 @@ function FormEvent() {
                                     endText="End Date"
                                     value={eventTimeFrame}
                                     onChange={(newValue) => {
+                                        console.log(moment(newValue[0].toLocaleDateString()).format("YYYY-MM-DD")+  " data")
                                         setEventData({
                                             ...eventData,
-                                            startDate: newValue[0] ? newValue[0].toISOString().split('T')[0] : null,
-                                            endDate: newValue[1] ? newValue[1].toISOString().split('T')[0] : null,
+                                            startDate: newValue[0] ? moment(newValue[0].toLocaleDateString()).format("YYYY-MM-DD") : null,
+                                            endDate: newValue[1] ?moment(newValue[1].toLocaleDateString()).format("YYYY-MM-DD") : null,
                                         })
                                         setEventTimeFrame(newValue);
                                     }}
