@@ -8,7 +8,7 @@ export default makeStyles(() => ({
     tableContainer: {
         borderRadius: 15,
         margin: "0 auto",
-        maxWidth: 950,
+        maxWidth: 1200,
     },
     tableHeaderCell: {
         fontWeight: "bold",

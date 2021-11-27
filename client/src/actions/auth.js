@@ -18,9 +18,7 @@ export const login = (formData, setUserLogged, navigate, showToastError) => asyn
 export const register = (formData, navigate) => async (dispatch) => {
     try {
         const { data } = await api.register(formData);
-
         dispatch({ type: AUTH, data });
-
         navigate('/login');
     } catch (error) {
         console.log(error);

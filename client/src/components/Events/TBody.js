@@ -20,7 +20,7 @@ function TBody() {
     const events = useSelector((state) => state.events);
     let today = moment(new Date()).format("YYYY-MM-DD");
     UtilService.sortDates(events);
-
+    console.log(events)
     const handleClickDelete = (event) => {
         setSelectedEvent(event);
         setIsOpen(true);
@@ -44,10 +44,10 @@ function TBody() {
             />
             {events.map((event) => (
                 <TableRow key={event._id}>
-                    <TableCell style={{display: "flex", alignItems: "center"}}>
+                    <TableCell>
                         <Avatar alt={event.name}
                                 style={{textTransform:"capitalize"}}
-                                src="."
+                                src={event?.creator?.image ? `${process.env.REACT_APP_PHOTO_URL}${event.creator.image}`: "."}
                                 className={classes.avatar}
                         />
                     </TableCell>
@@ -78,7 +78,7 @@ function TBody() {
                         </Typography>
                     </TableCell>
                     <TableCell>
-                        {(userLogged?.userId === event?.creator) &&
+                        {(userLogged?.userId === event?.creator?._id) &&
                         (<Button style={{color: "red"}} onClick={() => handleClickDelete(event)}>Delete</Button>)}
                     </TableCell>
                 </TableRow>
