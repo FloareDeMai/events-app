@@ -8,7 +8,7 @@ import {deleteEvent} from "../../actions/events";
 import {useAtom} from "jotai";
 import {userAtom} from "../../App";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 
 function TBody() {
@@ -34,6 +34,7 @@ function TBody() {
         dispatch(deleteEvent(selectedEvent._id))
         setIsOpen(false);
     };
+
     return (
         <TableBody>
             <ConfirmDialog
@@ -45,15 +46,16 @@ function TBody() {
                 <TableRow key={event._id}>
                     <TableCell style={{display: "flex", alignItems: "center"}}>
                         <Avatar alt={event.name}
+                                style={{textTransform:"capitalize"}}
                                 src="."
                                 className={classes.avatar}
                         />
                     </TableCell>
                     <TableCell>
-                        <Typography className={classes.name}> {event.name}</Typography>
+                        <Typography className={classes.name} style={{textTransform:"capitalize"}}> {event.name}</Typography>
                     </TableCell>
                     <TableCell>
-                        <Typography className={classes.name}>{event.location}</Typography>
+                        <Typography className={classes.name} style={{textTransform:"capitalize"}}>{event.location} </Typography>
                     </TableCell>
                     <TableCell>{event.startDate}</TableCell>
                     <TableCell>{event.endDate}</TableCell>
@@ -76,7 +78,6 @@ function TBody() {
                         </Typography>
                     </TableCell>
                     <TableCell>
-                        {console.log(event._id)}
                         {(userLogged?.userId === event?.creator) &&
                         (<Button style={{color: "red"}} onClick={() => handleClickDelete(event)}>Delete</Button>)}
                     </TableCell>

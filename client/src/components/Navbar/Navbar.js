@@ -38,19 +38,19 @@ function Navbar() {
                 </div>
 
                 <div className={classes.navbarLinks}>
-                    <Link to="/manage-event">
+                    <Link to="/manage-event" className={classes.removeUnderline}>
                         <div>
                             <Typography className={classes.links} variant="button">Add Event</Typography>
                         </div>
                     </Link>
 
                     {userLogged ?
-                        <Link to="/logout">
+                        <Link to="/logout" className={classes.removeUnderline}>
                         <div>
                             <Typography className={classes.links} variant="button" >Log Out</Typography>
                         </div>
                         </Link>
-                   : <Link to="/login">
+                   : <Link to="/login" className={classes.removeUnderline}>
                         <div>
                             <Typography className={classes.links} variant="button">Log In</Typography>
                         </div>

@@ -23,6 +23,6 @@ export const register = (formData, navigate) => async (dispatch) => {
 
         navigate('/login');
     } catch (error) {
-        console.log(error.response.data.message);
+        console.log(error);
     }
 };

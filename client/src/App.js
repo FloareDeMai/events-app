@@ -10,6 +10,7 @@ import RequireAuth from "./components/Auth/RequireAuth";
 import LogOut from "./components/LogOut/LogOut";
 import LocalStorageService from "./localStorage";
 import Register from "./components/Auth/Register";
+import NotFound from "./components/NotFound";
 
 export const userAtom = atom(LocalStorageService.getCurrentUserFromLocalStorage());
 
@@ -19,6 +20,7 @@ function App() {
         <Container maxWidth="lg">
            <Navbar/>
             <Routes>
+                <Route path='*' element={<NotFound />} />
                 <Route path="/" exact element={<Home/>}/>
                 <Route path="/register" exact element={<Register/>}/>
                 <Route path="/login" exact element={<Login/>}/>

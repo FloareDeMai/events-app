@@ -41,14 +41,19 @@ export default makeStyles((theme) => ({
     },
     navbarLinks: {
         display: "flex",
-        padding: "10px"
+        padding: "10px",
+
     },
     links: {
         "&:hover": {
             color: "#00AA57",
         },
         padding: "10px",
-        color: "rgb(17, 97, 73)"
+        color: "rgb(17, 97, 73)",
+    },
+    removeUnderline: {
+        textDecoration: "none"
     }
+
 
 }));

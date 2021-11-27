@@ -1,4 +1,6 @@
+import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import {useDispatch} from "react-redux";
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {
     Box,
@@ -13,20 +15,20 @@ import {
 } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import React, {useState} from "react";
-import {useDispatch} from "react-redux";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 import {register} from "../../actions/auth";
 import UtilService from "../../utils/utils";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
+import ImageUpload from "../Shared/ImageUpload";
 
-const initialState = {name: '', email: '', password: '', confirmPassword: ''};
+const initialState = {name: '', email: '', password: '', confirmPassword: '', image: ''};
 const theme = createTheme();
 
 function Register() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [form, setForm] = useState(initialState);
+    const [file, setFile] = useState();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const handleShowPassword = () => setShowPassword(!showPassword);
@@ -35,17 +37,20 @@ function Register() {
         short: '',
         mismatch: '',
     })
-
-
+    const handleChange = (e) => setForm({...form, [e.target.name]: e.target.value});
     const handleSubmit = (event) => {
         event.preventDefault();
         if (UtilService.validateFields(form, setErrors)) {
             return
         }
-        dispatch(register(form, navigate))
+        const formData = new FormData();
+        formData.append("name", form.name)
+        formData.append("email", form.email)
+        formData.append("password", form.password)
+        formData.append("confirmPassword", form.confirmPassword)
+        formData.append("image", file)
+        dispatch(register(formData, navigate))
     };
-
-    const handleChange = (e) => setForm({...form, [e.target.name]: e.target.value});
 
     return (
         <ThemeProvider theme={theme}>
@@ -57,8 +62,7 @@ function Register() {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                    }}
-                >
+                    }}>
                     <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
                         <LockOutlinedIcon/>
                     </Avatar>
@@ -81,6 +85,9 @@ function Register() {
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
+                                    <ImageUpload setFile={setFile} file={file}/>
+                                </Grid>
+                                <Grid item xs={12}>
                                     <TextField
                                         autoComplete="email"
                                         required
@@ -89,8 +96,7 @@ function Register() {
                                         label="Email Address"
                                         name="email"
                                         type="email"
-                                        onChange={handleChange}
-                                    />
+                                        onChange={handleChange}/>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -110,8 +116,7 @@ function Register() {
                                                         {showPassword ? <Visibility/> : <VisibilityOff/>}
                                                     </IconButton>
                                                 </InputAdornment>
-                                        }}
-                                    />
+                                        }}/>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <TextField
@@ -132,8 +137,7 @@ function Register() {
                                                         {showConfirmPassword ? <Visibility/> : <VisibilityOff/>}
                                                     </IconButton>
                                                 </InputAdornment>
-                                        }}
-                                    />
+                                        }}/>
                                 </Grid>
                             </Grid>
                             <Button
@@ -141,8 +145,7 @@ function Register() {
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{mt: 3, mb: 2}}
-                            >
+                                sx={{mt: 3, mb: 2}}>
                                 Sign Up
                             </Button>
                         </form>
