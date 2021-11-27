@@ -11,6 +11,7 @@ export const getAllEvents = async (req, res, next) => {
     let events;
     try {
         events = await Event.find();
+            // .populate('creator', '-password'); -> for profile picture
     } catch (err) {
         const error = new HttpError('Something went wrong, could not fetch the events', 500);
         return next(error);
