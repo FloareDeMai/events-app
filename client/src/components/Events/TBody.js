@@ -22,7 +22,6 @@ function TBody() {
         message: "",
     })
     const events = useSelector((state) => state.events);
-    UtilService.sortDates(events);
 
     const handleClickDelete = (event) => {
         setSelectedEvent(event);

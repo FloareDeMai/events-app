@@ -20,7 +20,6 @@ function EventTable() {
     const dispatch = useDispatch();
     const events = useSelector((state) => state.events);
 
-
     useEffect(() => {
         dispatch(getAllEvents());
     }, [dispatch])
