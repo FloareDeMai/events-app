@@ -28,7 +28,10 @@
 To get a local copy up and running follow these simple steps.
 ##### Installation
 1. Clone the repo
+```
 git clone https://github.com/FloareDeMai/events-app.git
+```
+
 2. Client folder:
  - Create your own .env file into root directory and write:
  ```
