@@ -45,12 +45,23 @@ const validateFields = (data, setErrors) => {
     }
     return error
 }
+ const toastBody =
+    {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    }
 
 const UtilService = {
     HEADERS,
     DUMMY_EVENTS,
     sortDates,
-    validateFields
+    validateFields,
+    toastBody
 }
 
 export default UtilService;

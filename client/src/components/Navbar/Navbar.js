@@ -1,19 +1,39 @@
-import React from "react";
-import {Link} from "react-router-dom";
+import React, {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {Link, useNavigate, useLocation} from "react-router-dom";
 import {AppBar, Typography} from "@mui/material";
 import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {useAtom} from "jotai";
+import decode from 'jwt-decode';
 
 
 import logo from "../../images/logo.png"
 import useStyles from "./styles";
 import {userAtom} from "../../App";
+import * as actionType from "../../constants/actionTypes";
 
 
 function Navbar() {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
     const [userLogged, setUserLogged] = useAtom(userAtom);
+
+    const logout = () => {
+        dispatch({ type: actionType.LOGOUT });
+        navigate('/login');
+        setUserLogged(null);
+    };
+
+    useEffect(() => {
+        const token = userLogged?.token;
+        if(token){
+            const decodedToken = decode(token);
+            if(decodedToken.exp * 1000 < new Date().getTime()) logout();
+        }
+    },[location])
 
     return (
         <>

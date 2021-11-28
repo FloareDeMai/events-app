@@ -1,6 +1,5 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {v4 as uuidv4} from "uuid";
 import moment from "moment";
 import {
     Container,
@@ -19,6 +18,7 @@ import DesktopDateRangePicker from '@mui/lab/DesktopDateRangePicker';
 
 import {createEvent} from "../../actions/events";
 import useStyles from "./styles";
+import UtilService from "../../utils/utils";
 
 function FormEvent() {
     const classes = useStyles();
@@ -31,17 +31,12 @@ function FormEvent() {
         startDate: null,
         endDate: null,
     })
-
+    const [errorHandler, setErrorHandler] = useState({
+        hasError: false,
+        message: "",
+    })
     const showToastSuccess = (message) => {
-        toast.success(message, {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
+        toast.success(message, UtilService.toastBody);
     };
 
     const handleSubmit = async (e) => {
@@ -50,8 +45,18 @@ function FormEvent() {
             ...eventData,
             startDate: eventData.startDate,
             endDate: eventData.endDate
-        }, navigate, showToastSuccess));
+        }, navigate, showToastSuccess, setErrorHandler));
     }
+
+    useEffect(() => {
+        if(errorHandler.hasError){
+            showToastError(errorHandler.message)
+        }
+    },[errorHandler])
+
+    const showToastError = (message) => {
+        toast.error(message, UtilService.toastBody);
+    };
     return (
         <Container>
             <Grid container justifyContent="center">

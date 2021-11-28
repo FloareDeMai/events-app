@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Box,
     Button,
@@ -20,6 +20,8 @@ import "react-toastify/dist/ReactToastify.css";
 import {login} from "../../actions/auth";
 import {useAtom} from "jotai";
 import {userAtom} from "../../App";
+import UtilService from "../../utils/utils";
+
 
 
 const initialState = { email: '', password: ''};
@@ -30,25 +32,31 @@ function Login() {
     const navigate = useNavigate();
     const [form, setForm] = useState(initialState);
     const [showPassword, setShowPassword] = useState(false);
+    const [errorHandler, setErrorHandler] = useState({
+        hasError: false,
+        message: "",
+    })
     const [userLogged, setUserLogged] = useAtom(userAtom);
+
+
     const handleShowPassword = () => setShowPassword(!showPassword);
     const handleSubmit = (e) => {
         e.preventDefault();
-        dispatch(login(form, setUserLogged, navigate, showToastError))
+        dispatch(login(form, setUserLogged, navigate, setErrorHandler))
     }
+
     const handleChange = (e) => setForm({...form, [e.target.name]: e.target.value});
 
+    useEffect(() => {
+        if(errorHandler.hasError){
+            showToastError(errorHandler.message)
+        }
+    },[errorHandler])
+
     const showToastError = (message) => {
-        toast.error(message, {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
+        toast.error(message, UtilService.toastBody);
     };
+
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">

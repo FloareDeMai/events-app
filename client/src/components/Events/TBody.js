@@ -1,5 +1,4 @@
 import {Avatar, TableBody, TableCell, TableRow, Typography, Button} from "@mui/material";
-import moment from "moment";
 import {useDispatch, useSelector} from "react-redux";
 
 import useStyles from "./styles";
@@ -9,6 +8,7 @@ import {useAtom} from "jotai";
 import {userAtom} from "../../App";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 import {useEffect, useState} from "react";
+import {toast} from "react-toastify";
 
 
 function TBody() {
@@ -17,10 +17,13 @@ function TBody() {
     const [userLogged] = useAtom(userAtom);
     const [selectedEvent, setSelectedEvent] = useState({});
     const [isOpen, setIsOpen] = useState(false);
+    const [errorHandler, setErrorHandler] = useState({
+        hasError: false,
+        message: "",
+    })
     const events = useSelector((state) => state.events);
-    let today = moment(new Date()).format("YYYY-MM-DD");
     UtilService.sortDates(events);
-    console.log(events)
+
     const handleClickDelete = (event) => {
         setSelectedEvent(event);
         setIsOpen(true);
@@ -31,8 +34,18 @@ function TBody() {
     };
 
     const confirmDelete = () => {
-        dispatch(deleteEvent(selectedEvent._id))
+        dispatch(deleteEvent(selectedEvent._id, setErrorHandler))
         setIsOpen(false);
+    };
+
+    useEffect(() => {
+        if(errorHandler.hasError){
+            showToastError(errorHandler.message)
+        }
+    },[errorHandler])
+
+    const showToastError = (message) => {
+        toast.error(message, UtilService.toastBody);
     };
 
     return (
@@ -61,20 +74,15 @@ function TBody() {
                     <TableCell>{event.endDate}</TableCell>
                     <TableCell>{event.submittedAt}</TableCell>
                     <TableCell>
-                        {/*// todo read based on the flag from the event in the db*/}
                         <Typography
                             className={classes.status}
                             style={{
-                                backgroundColor: moment(today).isAfter(
-                                    event.endDate
-                                )
-                                    ? "red"
-                                    : "green",
+                                backgroundColor: event.status ? "green" : "red"
                             }}
                         >
-                            {moment(today).isAfter(event.endDate)
-                                ? "Closed"
-                                : "Active"}
+                            {event.status
+                                ? "Active"
+                                : "Closed"}
                         </Typography>
                     </TableCell>
                     <TableCell>

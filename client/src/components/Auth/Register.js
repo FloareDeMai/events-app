@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import {useDispatch} from "react-redux";
 import {createTheme, ThemeProvider} from '@mui/material/styles';
@@ -20,6 +20,7 @@ import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {register} from "../../actions/auth";
 import UtilService from "../../utils/utils";
 import ImageUpload from "../Shared/ImageUpload";
+import {toast} from "react-toastify";
 
 const initialState = {name: '', email: '', password: '', confirmPassword: '', image: ''};
 const theme = createTheme();
@@ -31,6 +32,10 @@ function Register() {
     const [file, setFile] = useState();
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [errorHandler, setErrorHandler] = useState({
+        hasError: false,
+        message: "",
+    })
     const handleShowPassword = () => setShowPassword(!showPassword);
     const handleShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
     const [errors, setErrors] = useState({
@@ -49,7 +54,17 @@ function Register() {
         formData.append("password", form.password)
         formData.append("confirmPassword", form.confirmPassword)
         formData.append("image", file)
-        dispatch(register(formData, navigate))
+        dispatch(register(formData, navigate, setErrorHandler))
+    };
+
+    useEffect(() => {
+        if(errorHandler.hasError){
+            showToastError(errorHandler.message)
+        }
+    },[errorHandler])
+
+    const showToastError = (message) => {
+        toast.error(message, UtilService.toastBody);
     };
 
     return (
