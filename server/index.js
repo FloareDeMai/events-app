@@ -5,11 +5,14 @@ import dotenv from 'dotenv'
 dotenv.config()
 import fs from 'fs';
 import path from 'path';
+import cron from 'node-cron'
 
 
 import usersRoutes from './routes/users-routes.js'
 import eventsRoutes from './routes/events-routes.js'
 import HttpError from "./models/http-error.js";
+import {updateStatus} from "./controllers/events-controllers.js";
+
 
 
 const app = express();
@@ -21,6 +24,16 @@ app.use(cors());
 
 app.use("/api/users", usersRoutes)
 app.use("/api/events", eventsRoutes)
+
+
+// run job every hour
+const job = cron.schedule('0 * * * *', function(){
+    updateStatus().then((res) => console.log(res)).catch((err) => console.log(err))
+}, {
+    scheduled: false,
+    timezone: "Europe/Bucharest"
+})
+job.start()
 
 //error handling for unsupported routes
 app.use((req, res, next) => {

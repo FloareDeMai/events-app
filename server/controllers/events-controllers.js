@@ -6,24 +6,19 @@ import Event from "../models/event.js";
 import User from "../models/user.js";
 import HttpError from "../models/http-error.js";
 
-
 export const getAllEvents = async (req, res, next) => {
     let events;
     try {
-        events = await Event.find();
-            // .populate('creator', '-password'); -> for profile picture
+        events = await Event.find().populate('creator', '-password');
     } catch (err) {
         const error = new HttpError('Something went wrong, could not fetch the events', 500);
         return next(error);
     }
-
     res.status(200).json(events)
 }
 
 export const createEvent = async (req, res, next) => {
     const errors = validationResult(req);
-    console.log(errors)
-    console.log(req.body.startDate)
     if (!errors.isEmpty()) {
         return next(
             new HttpError('Invalid inputs passed, please check your data.', 422)
@@ -105,4 +100,15 @@ export const deleteEvent = async (req, res, next) => {
     }
 
     res.status(200).json({message: "Event deleted successfully!"});
+}
+
+export const updateStatus = async () => {
+    let results;
+    try {
+        results = await Event.updateMany({endDate: {$lt: moment(new Date()).format("YYYY-MM-DD")}}, {status: false});
+    } catch (err) {
+        const error = new HttpError('Something went wrong, could not update the events', 500);
+        return error;
+    }
+    return results;
 }

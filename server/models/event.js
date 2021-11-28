@@ -8,6 +8,7 @@ const eventSchema = new Schema({
     startDate: {type: String, required: true},
     endDate: {type: String, required: true},
     submittedAt : {type: String, required: true},
+    status: {type: Boolean, default: true},
     creator: {type: mongoose.Types.ObjectId, required: true, ref: 'User'}
 })
 
