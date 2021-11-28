@@ -7,13 +7,10 @@ import fs from 'fs';
 import path from 'path';
 import cron from 'node-cron'
 
-
 import usersRoutes from './routes/users-routes.js'
 import eventsRoutes from './routes/events-routes.js'
 import HttpError from "./models/http-error.js";
-import {updateStatus} from "./controllers/events-controllers.js";
-
-
+import {updateStatus} from "./update-status/update-status.js";
 
 const app = express();
 
@@ -27,7 +24,7 @@ app.use("/api/events", eventsRoutes)
 
 
 // run job every hour
-const job = cron.schedule('0 * * * *', function(){
+const job = cron.schedule('* * * * *', function(){
     updateStatus().then((res) => console.log(res)).catch((err) => console.log(err))
 }, {
     scheduled: false,
