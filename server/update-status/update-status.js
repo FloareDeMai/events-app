@@ -1,6 +1,6 @@
-import Event from "../models/event";
+import Event from "../models/event.js";
 import moment from "moment";
-import HttpError from "../models/http-error";
+import HttpError from "../models/http-error.js";
 
 export const updateStatus = async () => {
     let results;

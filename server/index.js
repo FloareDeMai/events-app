@@ -24,13 +24,12 @@ app.use("/api/events", eventsRoutes)
 
 
 // run job every hour
-const job = cron.schedule('* * * * *', function(){
+cron.schedule('* * * * *', function(){
     updateStatus().then((res) => console.log(res)).catch((err) => console.log(err))
 }, {
-    scheduled: false,
     timezone: "Europe/Bucharest"
 })
-job.start()
+
 
 //error handling for unsupported routes
 app.use((req, res, next) => {

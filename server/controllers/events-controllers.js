@@ -9,7 +9,7 @@ import HttpError from "../models/http-error.js";
 export const getAllEvents = async (req, res, next) => {
     let events;
     try {
-        events = await Event.find().populate('creator', '-password');
+        events = await Event.find().sort({submittedAt: -1}).populate('creator', '-password');
     } catch (err) {
         const error = new HttpError('Something went wrong, could not fetch the events', 500);
         return next(error);
