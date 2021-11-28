@@ -12,8 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import useStyles from "./styles";
 import THead from "./THead";
 import TBody from "./TBody";
-import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
-import {getAllEvents, getSelectedEvent} from "../../actions/events";
+import {getAllEvents} from "../../actions/events";
 
 
 function EventTable() {

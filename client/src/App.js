@@ -10,7 +10,7 @@ import RequireAuth from "./components/Auth/RequireAuth";
 import LogOut from "./components/LogOut/LogOut";
 import LocalStorageService from "./localStorage";
 import Register from "./components/Auth/Register";
-import NotFound from "./components/NotFound";
+import NotFound from "./components/NotFoundPage/NotFound";
 
 export const userAtom = atom(LocalStorageService.getCurrentUserFromLocalStorage());
 
