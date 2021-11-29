@@ -22,8 +22,6 @@ import {useAtom} from "jotai";
 import {userAtom} from "../../App";
 import UtilService from "../../utils/utils";
 
-
-
 const initialState = { email: '', password: ''};
 const theme = createTheme();
 
@@ -37,7 +35,6 @@ function Login() {
         message: "",
     })
     const [userLogged, setUserLogged] = useAtom(userAtom);
-
 
     const handleShowPassword = () => setShowPassword(!showPassword);
     const handleSubmit = (e) => {

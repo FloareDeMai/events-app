@@ -6,7 +6,7 @@ import Event from "../models/event.js";
 import User from "../models/user.js";
 import HttpError from "../models/http-error.js";
 
-export const getAllEvents = async (req, res, next) => {
+export const getAllEventsSortedBySubmittedAtDesc = async (req, res, next) => {
     let events;
     try {
         events = await Event.find().sort({submittedAt: -1}).populate('creator', '-password');

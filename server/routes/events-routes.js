@@ -2,12 +2,12 @@ import express from "express";
 import {check} from "express-validator";
 import moment from "moment";
 
-import {createEvent, deleteEvent, getAllEvents} from "../controllers/events-controllers.js";
+import {createEvent, deleteEvent, getAllEventsSortedBySubmittedAtDesc} from "../controllers/events-controllers.js";
 import {checkAuth} from "../middleware/check-auth.js";
 
 const router = express.Router();
 
-router.get("/", getAllEvents);
+router.get("/", getAllEventsSortedBySubmittedAtDesc);
 
 router.use(checkAuth);
 

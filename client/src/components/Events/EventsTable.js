@@ -24,7 +24,6 @@ function EventTable() {
         dispatch(getAllEvents());
     }, [dispatch])
 
-
     return (
         <>
             {events?.length ?

@@ -22,14 +22,12 @@ app.use(cors());
 app.use("/api/users", usersRoutes)
 app.use("/api/events", eventsRoutes)
 
-
 // run job every hour
-cron.schedule('* * * * *', function(){
+cron.schedule('0 * * * *', function(){
     updateStatus().then((res) => console.log(res)).catch((err) => console.log(err))
 }, {
     timezone: "Europe/Bucharest"
 })
-
 
 //error handling for unsupported routes
 app.use((req, res, next) => {
@@ -50,10 +48,7 @@ app.use((error, req, res, next) => {
     res.json({message: error.message || 'An unknown error occurred!'});
 })
 
-
 const CONNECTION_URL = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.du2zr.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
-
-
 
 mongoose
     .connect(CONNECTION_URL)

@@ -1,5 +1,7 @@
 import {Avatar, TableBody, TableCell, TableRow, Typography, Button} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
+import {useEffect, useState} from "react";
+import {toast} from "react-toastify";
 
 import useStyles from "./styles";
 import UtilService from "../../utils/utils";
@@ -7,8 +9,6 @@ import {deleteEvent} from "../../actions/events";
 import {useAtom} from "jotai";
 import {userAtom} from "../../App";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
-import {useEffect, useState} from "react";
-import {toast} from "react-toastify";
 
 
 function TBody() {
